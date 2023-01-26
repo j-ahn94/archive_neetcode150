@@ -1,0 +1,27 @@
+# SLIDING WINDOW
+# LAST UPDATE - 2023 01 26
+
+
+**ABOUT**
+
+-arrays, lists or string problems
+-reduce time complexity 
+      O(n^2) & O(n^3) -> O(n)
+      Two nested loops -> Single loop
+
+
+**QUESTION HINTS**
+
+-asks to find subrange in array or string (ie. longest sequence or shortest sequence)
+
+
+**ANALYSIS**
+
+[a, b, c, d, e, f, g, h]  <- given arrays
+
+[a, b, c]         <- size 3 sliding
+    [b, c, d]           ''
+       [c, d, e]
+           [d, e, f]
+               [e, f, g]
+                   [f, g, h]
