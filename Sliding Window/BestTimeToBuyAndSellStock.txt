@@ -31,39 +31,41 @@ The question is asking to find two given stocks (one lowest, one highest) to fin
 The profit can't be negative.
 While calculating the values one-by-one, it is important to record 'lowest' value and 'highest' value.
 
+*Don't think of this question relating to sliding window since this question doesn't require to find the maximum/minimum subsequence of array..
+
+
+
 
 ALGORITHM
 
 Sliding Window approach - maintain and update the lowest value, highest value and highest value from (highest value - lowest value) while looping around the array
 
-Time - O(n)
-Space - O(1)
+Time - O(n) //for-loop approach
+Space - O(1) //everytime maximum value between two stocks are found, update the variable
 
 
 CODE
+------------------------------------------------------------------------------------------------------------------------------------------
 
-java
+JAVA
 
 class Solution {
     public int maxProfit(int[] prices) {
-        int res = 0; //important to initialize 'res' as 0. If the array is in descending order, then we need to simply return 0.
-        int min = Integer.MAX_VALUE; //the reason why we set maximum value is we want to find what the actual minimum value is. Comparing with max value will allow us to find it.
-        int max = Integer.MIN_VALUE; //same as above condition. We want to find maximum value from the array.
-        for(int i: prices) {
+        int res = 0; //initialize the return value to zero
+        int maxSoFar = 0; //this variable is created to store the previous maximum value of stock return
+        int min = Integer.MAX_VALUE; //to store minimum value in prices array, it is important to 
 
-        }
-
-        for(int i = 0; i < prices[i]; i++) {
+        for(int i = 0; i < prices.length; i++) {
             if(prices[i] < min) {
-                min = prices[i];
-            } else {
-                max = Math.max(max, prices[i] - min);
-                res = Math.max(max, res);
+                min = prices[i]; 
             }
+            maxSoFar = prices[i] - min; //although the first loop will arrive as '0', this variable will count the 'current' difference between each stock
+            res = Math.max(res, maxSoFar); //stores what is the 'highest' integer from the loop so far
         }
-
-
         return res;
     }
 }
+
+PYTHON
+
 
