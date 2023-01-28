@@ -25,11 +25,106 @@ Output: ["catdog"]
 
 JASON'S ANALYSIS
 
+1. Use for-loop to store all the values in each hashset
+2. If there is an overlap, then merge all the values together
+3. --
+
 ALGORITHM
+
+JAVA Algorithm (https://www.youtube.com/watch?v=RLc0SyvDjrI&t=695s)
+
+Codebix explains the process of placing each string into hash set and determines whether a substring exists in the hash set by using recursion.
+Every character and 'suffix' in each string is observed to determine whether a particular string exists in the hash set
+
+For instance, "b" "code" "bix" "codebix" "codebbix" "codebyte" "bit" is all stored in hashset. See below code.
+
+Time - O(n * k)
+Memory - O(1)
+
+
+
+
+PYTHON Algorithm (https://www.youtube.com/watch?v=iHp7fjw1R28&t=307s)
+
+NeetCode explains similar process as Codebix, where each character in a string is reviewed and determine whether that suffix exists as a string within the array.
+The constraint for this question is length of the array is < 4000 and length of word is < 30, therefore it more optimal to check each word (ie. every prefix of word) than the array.
+
+The algorithm used is Depth-First Search with recursive function
+
+IE.
+['catsdogcats', 'cats', 'dog'] <- given strings in the array
+
+c atsdogcats <- check every prefix in the string
+ca tsdogcats
+cat sdogcats <- jackpot. Keep looping to find string exists from the rest of the prefix
+cats dogcats
+catsd ogcats
+catsdo gcats
+
+Time - O(N * L^3)
+Memory - O(1)
+
 
 CODE
 ------------------------------------------------------------------------------------------------------------------------------------------
 
 JAVA
 
+class Solution {
+    HashSet<String> set;
+
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        List<String> res = new ArrayList<>();
+
+        if(words.length == 0) {  //first, checks the condition if the words array length is zero. If zero, then no need to loop around
+            return res;
+        }
+
+        set = new HashSet<>(); // stores all the distinct strings to the HashSet 
+
+        for(String word: words) { // add all the strings to the HashSet. HashSet provides distinct strings
+            set.add(word);
+        }
+
+        for(String word: words) { // checks if constructing with the current string with concatenation results in word in words array
+            if(isConcat(word)) {  // if true, then add the word to 'res'
+                res.add(word);
+            }
+        }
+
+        return res;
+    }
+
+    private boolean isConcat(String word) {
+        int len = word.length();
+
+        for(int i = 1; i < len; i++){
+            String suffix = word.substring(i); 
+            if(set.contains(word.substring(0, i)) && (set.contains(suffix) || isConcat(suffix))) {  // checks if the substring of word exists in the hash set AND if the suffix of the hash set is present in the headset OR use the suffix by the concatenation of the other string, then true true 
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+
 PYTHON
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        wordSet = set(words)
+
+        def dfs(word): //visit all the prefix of the word
+            for i in range(1, len(word)): // prefix starts at 1 because it needs to break it down to at least two or more words. Otherwise, it will try to find the word itself in the array.
+                prefix = word[:i] //this sets the string within the word we're looking for
+                suffix = word[i:] //this sets the remainder of the word
+                if((prefix in wordSet and suffix in wordSet) or (prefix in wordSet and dfs(suffix))): // the 'dfs(suffix)' looks at whether the word can also be broken down within the suffix itself For instance, if the suffix is 'dogscat', it can also be broken into 'dogs' and 'cat'.
+                    return True
+
+        res = []
+
+        for w in words:
+            if dfs(w):
+                res.append(w)
+        return res
