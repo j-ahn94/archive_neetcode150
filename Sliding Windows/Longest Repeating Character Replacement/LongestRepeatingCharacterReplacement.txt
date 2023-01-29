@@ -48,9 +48,15 @@ The goal is for all windows to match most common character in that window.
 
 window length - count of most frequent character = number of characters that needs to be replaced to match most frequent character
 
+Condition 1
+-----------
 number of characters needs to be replaced <= K     <- condition for current window to be valid
 
-if 'number of characters needs to be replaced' > K <- condition for current window is not valid, so window needs to be shrunken 
+Condition 2
+-----------
+if 'number of characters needs to be replaced' > K <- condition for current window is not valid, so window needs to be shrunken until 'window size' - 'common character' <= 'K'
+
+
 
 
 
@@ -61,4 +67,24 @@ CODE
 
 JAVA
 
+
+
+
 PYTHON
+
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        count = {}  <- HashMap to count the occurrences in each character
+        res = 0 <- return longest character with k replacement
+
+        l = 0
+        for r in range(len(s)):
+            count[s[r]] = 1 + count.get(s[r], 0) <- increase the given character. If the character doesn't exist, then return 0 which is default value
+
+            while (r - l + 1) - max(count.values()) > k:
+                count[s[l]] -= 1
+                l += 1
+
+            res = max(res, r - l + 1) <- re-evaluate the size of the window
+        return res
+
