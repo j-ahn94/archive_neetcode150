@@ -1,26 +1,127 @@
-# NUMBER. / DIFFICULTY
+# 567. / PERMUTATION IN STRING
 
 QUESTION
 ------------------------------------------------------------------------------------------------------------------------------------------
-Copy & Paste
+Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
+
+In other words, return true if one of s1's permutations is the substring of s2.
 
 
 Example 1
 ------------------------------------------------------------------------------------------------------------------------------------------
-Copy & Paste
+Input: s1 = "ab", s2 = "eidbaooo"
+Output: true
+Explanation: s2 contains one permutation of s1 ("ba").
+
 
 Example 2
 ------------------------------------------------------------------------------------------------------------------------------------------
-Copy & Paste
+Input: s1 = "ab", s2 = "eidboaoo"
+Output: false
+
 
 
 JASON'S ANALYSIS
 
+Loop 's2' from the right-to-left direction and see whether 's2' is part of permutation of 's1'
+
+1. Add 's1' to char array
+2. loop around 's2' with for-looop and if the particular character exists, then remote.
+3. keep looping until the array is empty
+4. if not empty, then return false
+
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        if(s2.length < s1.length){
+            return false;
+        }
+
+        int[] char_count = new int[26];
+
+        for(int i = 0; i < s1.length(); i++) {
+            char_count[s1.charAt(i) - 'a']++;
+        }
+
+        for(int i = s2.length(); i > 0; i--) {
+            if(char_count.contains([s2.charAt(i) - 'a'])) {
+                char_count[s2.charAt(i) - 'a']--;
+            }
+        }
+
+        if(char_count == null) {
+            return true;
+        }
+        return false;
+    }
+}
+
+ARRAY CONTAINS FUNCTION DOESN'T WORK (LINE 49)
+
+
 ALGORITHM
+
+Sliding Window approach
+
+*it is important to note that window size is the size of the 's1' since we are looking to see whether the characters in String 's1' exists or not
+Best way to approach sliding window of String problem is to create hash table OR array of size 26 (alphabet)
+
+1. Create two arrays of size 26 and insert the character of length s1
+ie. If 's1' is 'abcdef' (which is length 6), then insert 6 characters in two arrays
+
+2. Then, check to see whether both arrays are equal to each other
+
+3. If not equal, then remove the first character of array in s2, then add the next character of s2
+
+4. Keep doing to see whether there is a match.
+
+5. If there is a match, then return true. If not, return false.
+
 
 CODE
 ------------------------------------------------------------------------------------------------------------------------------------------
 
 JAVA
 
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        
+        //Check condition whether s1 length is greater than s2
+        if(s1.length() > s2.length()) {
+            return false;
+        }
+
+        if(s1.length() == 0) {
+            return true;
+        }
+
+        //Create two distinct arrays to place s1 and s2
+        int[] s1_array = new int[26];
+        int[] s2_array = new int[26];
+
+        //insert characters in each array
+        //for 's2_array', the characters are added in the window size of s1
+        for(int i = 0; i < s1.length(); i++) {
+            s1_array[s1.charAt(i) - 'a']++;
+            s2_array[s2.charAt(i) - 'a']++;
+        }
+
+        //the remaining characters of s2 are added in the window size of s1
+        for(int i = s1.length();i < s2.length(); i++) {
+            if(Arrays.equals(s1_array, s2_array)) {
+                return true;
+            }
+            s2_array[s2.charAt(i - s1.length()) - 'a']--;
+            s2_array[s2.charAt(i) - 'a']++;
+        }
+
+        if(Arrays.equals(s1_array, s2_array)) {
+            return true;
+        }
+        return false;
+    }
+}
+
+
 PYTHON
+
+The reason why Python answer is not recorded is because NeetCode analyzes the problem from different approach and I personally don't think it's optimal.
