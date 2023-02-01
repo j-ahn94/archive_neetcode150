@@ -1,0 +1,144 @@
+# 76. / HARD
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given two strings s and t of lengths m and n respectively, return the minimum window substring
+of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
+
+Example 3
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
+
+
+
+
+JASON'S ANALYSIS
+
+Classic Sliding Window question but unsure how it works.
+
+ALGORITHM
+
+Eric Programming (https://www.youtube.com/watch?v=yT5nzi9f_T4)
+
+Sliding Window technique - expand window if condition is not satisfied
+                           if condition is satisifed, track the window
+
+Create Hash Table to record the characters and number of appearance in 't'
+
+Create 'counter' variable to count how many characters in 't' found in window
+
+
+
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+class Solution {
+    public String minWindow(String s, String t) {
+        //define table
+        int[] arr = new int[128];
+
+        char[] s_arr = s.toCharArray();
+        char[] t_arr = t.toCharArray();
+
+        //increment each character in 't' by 1
+        for(char cur: t_arr) {
+            arr[cur]++;
+        }
+
+        //define pointers
+        int L = 0;
+        int R = 0;
+
+        //define minLen
+        int minLen = Integer.MAX_VALUE;
+
+        //define ans
+        String ans = "";
+        int counter = 0;
+
+        //find the min window
+        while(R < s_arr.length) {
+            char curChar = s_arr[R];
+            if(--arr[curChar] >= 0){
+                counter++;
+            }
+            //shrink the window
+            while(counter == t_arr.length) {
+                int curWindow = R - L + 1;
+                if(curWindow < minLen) {
+                    minLen = curWindow;
+                    ans = s.substring(L, R + 1);
+                }
+                char leftChar = s_arr[L];
+                if(++arr[leftChar] > 0) {
+                    counter--;
+                }
+                L++;
+            }
+            R++;
+        }
+        //return ans
+        return ans;
+    }
+}
+
+
+
+PYTHON
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if t == "": return ""
+
+        countT, window = {}, {}
+
+        for c in t:
+            countT[c] = 1 + countT.get(c, 0)
+        
+        have, need = 0, len(countT)
+
+        res, resLen = [-1, -1], float("infinity")
+
+        l = 0
+
+        for r in range(len(s)):
+            c = s[r]
+            window[c] = 1 + window.get(c, 0)
+
+            if c in countT and window[c] == countT[c]
+                have += 1
+            
+            while have == need:
+                # update our result
+                if (r - l + 1) < resLen:
+                    res = [l, r]
+                    resLen = (r - l + 1)
+                # pop from the left of our window
+                window[s[l]] -= 1
+                if s[l] in countT and window[s[l]] < countT[s[l]]:
+                    have -= 1
+                l += 1
+        l, r = res
+        return s[l:r + 1] if resLen != float("infinity") else ""
+
