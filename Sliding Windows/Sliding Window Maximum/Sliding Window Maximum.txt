@@ -91,22 +91,44 @@ JAVA
 
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        int[] ans = new int[nums.length - k + 1];
-        int j = 0;
-        Deque<Integer> q = new LinkedList<>();
-        for(int i = 0; i < nums.length; i++) {
-            if(!q.isEmpty() && q.peekFirst() < i - k + 1) {
-                q.pollFirst();
-            }
-            while(!q.isEmpty() && nums[i] > nums[q.peekLast()]) {
-                q.pollLast();
-            }
-            q.offer(i);
-            if(i >= k - 1) {
-                ans[j++] = nums[q.peekFirst()];
-            }
+        if(nums == null || nums.length == 0 || k > nums.length) {
+            return new int[0]; // return empty result
         }
-        return ans;
+
+        int res[] = new int[nums.length - k + 1]; //numSize: 3, k: 2 ==> 3 - 2 + 1
+        
+        // index dq
+        Deque<Integer> dq = new ArrayDeque<>();
+
+        // pointer
+        int i = 0;
+
+        while(i < nums.length) {
+
+            // if deck is not empty and if any number is moved out of the window, then pop first one and start from the right side of the deck
+            if(!dq.isEmpty() && dq.peekFirst() == i - k) {
+                dq.pollFirst();
+            }
+
+            // start from right side of the deck and if there's any number that is less than current number,
+            // then remove the num[dq.peekLast()]
+            while(!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) {
+                dq.pollLast();
+            }
+
+            // add current number in the deck
+            dq.offerLast(i);
+
+            // check if i is big enough to form a window, then we grab very first two value from the deck
+            // and get corresponding value from num's array and assign it to result
+            if(i >= k - 1) {
+                res[i - k + 1] = nums[dq.peekFirst()];
+            }
+
+            i++;
+        }
+
+        return res;
     }
 }
 
