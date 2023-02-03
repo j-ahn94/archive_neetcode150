@@ -70,9 +70,16 @@ If there is a value that is greater than previous window, we can eliminate the v
 
 How to solve? Use 'deque' - always decreasing order
 
-Monotonically Decreasing Queue - Add each value in the 'deque' deck and when we see a value greater, pop the values less than it and add the new value to the output array.
-                                 If the value is less than previous values (ie.[9, 6, 4]), look at left-most value from the deck and add it to the output array.
+Monotonically Decreasing Queue - Add each value in the 'deque' deck and when we see a value greater, 'pop' the values less than it and add the new value to the output array.
+                                 If the value is less than previous values (ie.[9, 6, 4]), look at left-most value from the deck and add it to the output array. Next, pop the left-most value from the deque deck.
 Deque - O(1)
+
+Deque will always be organized in decreasing order
+
+*Queue - add elements at the end
+         remove elements in the beginning
+
+*Deque - add and remove elements at both end
 
 
 
@@ -81,6 +88,28 @@ CODE
 ------------------------------------------------------------------------------------------------------------------------------------------
 
 JAVA
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int[] ans = new int[nums.length - k + 1];
+        int j = 0;
+        Deque<Integer> q = new LinkedList<>();
+        for(int i = 0; i < nums.length; i++) {
+            if(!q.isEmpty() && q.peekFirst() < i - k + 1) {
+                q.pollFirst();
+            }
+            while(!q.isEmpty() && nums[i] > nums[q.peekLast()]) {
+                q.pollLast();
+            }
+            q.offer(i);
+            if(i >= k - 1) {
+                ans[j++] = nums[q.peekFirst()];
+            }
+        }
+        return ans;
+    }
+}
+
 
 PYTHON
 
