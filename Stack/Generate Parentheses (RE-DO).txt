@@ -1,0 +1,69 @@
+# 22. / MEDIUM
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: n = 1
+Output: ["()"]
+
+
+JASON'S ANALYSIS
+
+If the bracket opens, then it must close.
+
+Create a for-loop to loop around each interval and add it in a stack?
+
+for(int i = 0; i < n; i++) {
+
+}
+
+
+ALGORITHM
+
+NeetCode algorithm - backtracking
+
+1) Only add open parenthesis if open < n
+2) Only add a closing parenthesis if closed < open
+3) Valid IF open == closed == N
+
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+PYTHON
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str];
+
+        stack = []
+        res = []
+
+        def backtrack(openN, closedN):
+            if openN == closedN == n:
+                res.append("".join(stack))
+                return
+            
+            if openN < n:
+                stack.append("(")
+                backtrack(openN + 1, closedN)
+                stack.pop()
+            
+            if closedN < openN:
+                stack.append(")")
+                backtrack(openN, closedN + 1)
+                stack.pop()
+            
+        backtrack(0, 0)
+        return res

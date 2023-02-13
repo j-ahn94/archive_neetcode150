@@ -1,0 +1,116 @@
+# 155. / MEDIUM
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+Implement the MinStack class:
+
+MinStack() initializes the stack object.
+void push(int val) pushes the element val onto the stack.
+void pop() removes the element on the top of the stack.
+int top() gets the top element of the stack.
+int getMin() retrieves the minimum element in the stack.
+You must implement a solution with O(1) time complexity for each function.
+
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input
+["MinStack","push","push","push","getMin","pop","top","getMin"]
+[[],[-2],[0],[-3],[],[],[],[]]
+
+Output
+[null,null,null,null,-3,null,0,-2]
+
+Explanation
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin(); // return -3
+minStack.pop();
+minStack.top();    // return 0
+minStack.getMin(); // return -2
+
+
+
+JASON'S ANALYSIS
+
+ALGORITHM
+
+Two ways to implement this algorithm:
+1) Two-Stack
+
+a) Create regular stack. Methods 'push(x)', 'pop()' and 'top()' are part of regular stack.
+   Only need to create 'getMin()' in constant time
+
+2) One-Stack - not recommended
+
+
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+TWO STACK APPROACH - one stack is regular (cause of built-in methods) and one stack keeps the min_vals
+
+class MinStack {
+    Stack<Integer> stack = new Stack();
+    Stack<Integer> min_vals = new Stack(); //keep track of new minimum values
+
+    public void push(int x) {
+        if(min_vals.isEmpty() || x <= min_vals.peek()) {
+            min_vals.push(x);
+        }
+        stack.push(x);
+    }
+
+    public void pop() {
+        if(stack.peek().equals(min_vals.peek())) {
+            min_vals.pop();
+        }
+        stack.pop();
+    }
+
+    public int top() {
+        return stack.peek(); //built-in method to peek the top element inside the stack
+    }
+
+    public int getMin() {
+        return min_vals.peek(); //minimum will only have minimum, so it will be at the top of the stack
+    }
+}
+
+
+ONE STACK APPROACH - keep variable to keep track of minimum and push old minimum value onto the stack
+
+*one-stack approach is not recommended since you don't necessarily need 'minimum' value
+*two-stack is easier to understand and better documentation
+
+
+
+PYTHON
+
+class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.minStack = []
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        val = min(val, self.minStack[-1] if self.minStack else val)
+        self.minStack.append(val)
+    
+    def pop(self) -> None:
+        self.stack.pop()
+        self.minStack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.minStack[-1]
+

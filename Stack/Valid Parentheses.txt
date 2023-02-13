@@ -37,6 +37,17 @@ Using stack and pop method to see that if the characters are ')', '}' and ']', s
 
 ALGORITHM
 
+Loop around each character (where each character in stack only has '(', '{' and '['.
+
+If the character is either '(', '{' and '[', then simply add.
+
+If the characters are not either of the three characters, then check
+
+  1) If character is ')', then check to see whether stack's last character is '(', if not then return false.
+  2) If character is ']', then check to see whether stack's last character is '[', if not then return false.
+  3) If character is '}', then check to see whether stack's last character is '{', if not then return false.
+
+
 class Solution {
     public boolean isValid(String s) {
         Stack<Character> isStack = new Stack<Character>();
