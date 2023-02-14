@@ -41,11 +41,44 @@ Therefore, you can't travel around the circuit once no matter where you start.
 
 JASON'S ANALYSIS
 
+Initial thought was to create 'tree' and calculate every single possible calculation from the two given arrays.
+Couldn't think of possible solution..
+
+
 ALGORITHM
+
+NeetCode (https://www.youtube.com/watch?v=lJwbPZGo05A)
+
+Greedy question that is difficult to understand since it's unique.
+
+It is important to understand that gas and cost array is connected to each other (ie. gas[i] will have cost[i] to travel forward).
+NeetCode calculates each of the arrays by subtracting gas[i] - cost[i] and see whether positive integer arrives.
+If difference between the two values arrive in negative, then it is impossible to move forward to the next gas station, so it needs to be skipped until positive values arrive.
+Something to note is that all the values added in the gas array needs to be greater than the values added in cost since gas is considered '+' and cost is considered '-'.
+Therefore, if the value between gas and cost is less than 0, then the result value (which we will return to indicate which array it needs to start) will be added 1 (to keep the index position).
+
 
 CODE
 ------------------------------------------------------------------------------------------------------------------------------------------
 
 JAVA
 
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int sGas = 0, sCost = 0, total = 0, res = 0;
+        for(int i = 0; i < gas.length; i++) {
+            sGas += gas[i];
+            sCost += cost[i];
+        }
+        if(sGas < sCost) return -1;
+        for(int i = 0; i < gas.length; i++) {
+            total = gas[i] - cost[i];
+            if(total < 0) {
+                total = 0;
+                res = i + 1;
+            }
+        }
+        return res;
+    }
+}
 PYTHON

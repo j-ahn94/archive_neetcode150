@@ -1,0 +1,39 @@
+# 1523. / EASY
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given two non-negative integers low and high. Return the count of odd numbers between low and high (inclusive).
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: low = 3, high = 7
+Output: 3
+Explanation: The odd numbers between 3 and 7 are [3,5,7].
+
+
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: low = 8, high = 10
+Output: 1
+Explanation: The odd numbers between 8 and 10 are [9].
+
+
+JASON'S ANALYSIS
+
+Odd number is any number that is not divisible by 2.
+Run 'for loop' starting from low to high and see whether each number is divisible by 2. Is not, then add 1 in the count variable.
+
+
+ALGORITHM
+
+Time: O(N)
+Space: O(N)
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+PYTHON
