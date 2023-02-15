@@ -26,6 +26,8 @@ Explanation: Alice's hand can not be rearranged into groups of 4.
 
 JASON'S ANALYSIS
 
+The array size of hand needs to be divisible by the group size. If not, simply return false.
+
 ALGORITHM
 
 CODE
