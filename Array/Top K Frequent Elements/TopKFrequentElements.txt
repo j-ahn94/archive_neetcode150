@@ -1,0 +1,71 @@
+# 347. / MEDIUM
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,2]
+
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: nums = [1], k = 1
+Output: [1]
+
+
+JASON'S ANALYSIS
+
+
+ALGORITHM
+
+Bucket sort algorithm:
+
+Create table that counts element (key) and number of frequency (value). Then, convert to another table to count the key (frequency) and value (list of elements).
+
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+
+        // save each element's appearance in a table
+        Map<Integer, Integer> bucket1 = new HashMap<>();
+        for(int num : nums) {
+            bucket1.put(num, getOrDefault(num, 0) + 1);
+        }
+
+        // store each element's frequency as the key
+        Map<Integer, List<Integer>> bucket2 = new HashMap<>();
+        for(Integer num : bucket1.keySet()) {
+            Integer elementFreq = bucket1.get(num);
+            if(!bucket2.containsKey(elementFreq)) {
+                bucket2.put(elementFreq, new ArrayList<>());
+            }
+            bucket2.get(elementFreq).add(num);
+        }
+
+        // get top K elements
+        int[] res = new int[k];
+        for(int n = nums.length; n > 0; n--) {
+            if(bucket2.containsKey(n)) {
+                List<Integer> list = bucket2.get(n);
+                for(Integer integer : list) {
+                    res[--k] = integer;
+                    if(k == 0) {
+                        return res;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+PYTHON

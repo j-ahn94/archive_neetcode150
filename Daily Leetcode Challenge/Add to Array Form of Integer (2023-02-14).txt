@@ -38,6 +38,34 @@ Space: O(1)
 
 class Solution {
     public List<Integer> addToArrayForm(int[] num, int k) {
+        int res = 0;
+        for(int i = 0; i < num.length; i++) {
+            res += Integer.valueOf(num[i]);
+        }
+        res += k;
+        return res.toCharArray();
+    }
+}
+
+
+ALGORITHM
+
+NeetCode (https://www.youtube.com/watch?v=eBTZQt1TWfk)
+
+Use of 'in place method' for the most efficient way to solve the problem.
+
+Conduct 'mod operation' in K value (ie. 34 % 10 will give out 4. Add 4 to the array value).
+It is important to reverse the array and add the values by it.
+
+Time: O(# of digits in K) 
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+class Solution {
+    public List<Integer> addToArrayForm(int[] num, int k) {
         ArrayList<Integer> list = new ArrayList<>();
         int n = num.length;
         int carry = 0;
@@ -59,21 +87,5 @@ class Solution {
     }
 }
 
-
-ALGORITHM
-
-NeetCode (https://www.youtube.com/watch?v=eBTZQt1TWfk)
-
-Use of 'in place method' for the most efficient way to solve the problem.
-
-Conduct 'mod operation' in K value (ie. 34 % 10 will give out 4. Add 4 to the array value).
-It is important to reverse the array and add the values by it.
-
-Time: O(# of digits in K) 
-
-CODE
-------------------------------------------------------------------------------------------------------------------------------------------
-
-JAVA
 
 PYTHON
