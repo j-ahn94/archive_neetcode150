@@ -1,0 +1,83 @@
+# 783. / EASY
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given the root of a Binary Search Tree (BST), return the minimum difference between the values of any two different nodes in the tree.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: root = [4,2,6,1,3]
+Output: 1
+
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: root = [1,0,48,null,null,12,49]
+Output: 1
+
+
+JASON'S ANALYSIS
+
+Run 'Math.MIN' function in depth-first search algorithm and see which two numbers is the least?
+
+class Solution {
+    public int minDiffInBST(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+        
+
+        return minDiffInBST(root.left) 
+    }
+}
+
+ALGORITHM
+
+NeetCode (https://www.youtube.com/watch?v=joxx4hTYwcw)
+
+With sorted array, compare the values that is close to each other (ie. [1,2,3,4,6]). Why bother compare with elements that are distant to each other?
+
+With Trees, it is optimal to use 'in order traversal'. To compare two nodes, we need to compare the previous node with the current node.
+
+Initially, previous node with be set to null.
+
+
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+*The key is to look at each tree node in 'in-order-traversal' and look at each of the adjacent elements by adding it to the list array.
+
+class Solution {
+    public int minDiffInBST(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+
+        List<Integer> list = new ArrayList<Integer>();
+
+        inOrderTraversal(root, list);
+
+        int minDif = Integer.MAX_VALUE;
+        for(int i = 0; i < list.size() - 1; i++) {
+            minDif = Math.min(minDif, list.get(i + 1) - list.get(i));
+        }
+
+        return minDif;
+    }
+
+    private void inOrderTraversal(TreeNode root, List<Integer> list) {
+        if(root == null) {
+            return;
+        }
+
+        inOrderTraversal(root.left, list);
+        list.add(root.val);
+        inOrderTraversal(root.right, list);
+    }
+}
+
+PYTHON

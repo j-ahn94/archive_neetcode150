@@ -39,7 +39,7 @@ CODE
 
 JAVA
 
-Depth-First Search Algorithm
+Depth-First Search Algorithm (traversing trees by going down)
 
 class Solution {
     public int maxDepth(TreeNode root) {
@@ -49,5 +49,27 @@ class Solution {
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 }
+
+Breadth-First Search Algorithm (traversing trees level-by-level and see which level we are at)
+
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+
+        level = 0
+        q = deque([root])
+        while q:
+
+            for i in range(len(q)):
+                node = q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+
+            level += 1
+
+Iterative DFS 
 
 PYTHON
