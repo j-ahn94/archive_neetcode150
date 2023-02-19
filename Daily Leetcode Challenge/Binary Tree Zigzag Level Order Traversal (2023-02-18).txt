@@ -1,0 +1,76 @@
+# MEDIUM. / 103
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. 
+(i.e., from left to right, then right to left for the next level and alternate between).
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[20,9],[15,7]]
+
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: root = [1]
+Output: [[1]]
+
+
+Example 3
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: root = []
+Output: []
+
+
+JASON'S ANALYSIS
+
+ALGORITHM
+
+Programming Tutorials (https://www.youtube.com/watch?v=u56iHpKFGLs)
+
+1. Level-order traversal
+2. When we visit even number level, visit left-to-right
+3. When we visit odd number level, visit right-to-left
+4. Initialize queue of TreeNode to add each values (queue = FIFO)
+5. 
+
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> list = new ArrayList<>();
+        if(root == null)
+            return list;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        boolean normalorder = false;
+        while(!q.isEmpty()){
+            int size = q.size();            
+            LinkedList<Integer> levelValues = new LinkedList<>();  
+            normalorder = !normalorder;
+            while(size > 0){
+                size--;       
+                TreeNode cur = q.poll();  
+                if(normalorder)
+                    levelValues.add(cur.val); 
+                else
+                    levelValues.addFirst(cur.val);
+                
+                if(cur.left != null)
+                    q.offer(cur.left);
+                if(cur.right != null)
+                    q.offer(cur.right);      
+                                     
+            }
+            //System.out.println("Level values are "+levelValues);
+            list.add(levelValues);
+        }
+        return list;
+    }
+    
+PYTHON
