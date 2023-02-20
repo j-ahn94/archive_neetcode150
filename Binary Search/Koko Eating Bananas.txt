@@ -1,0 +1,99 @@
+# 875. / KOKO EATING BANANAS
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. The guards have gone and will come back in h hours.
+
+Koko can decide her bananas-per-hour eating speed of k. Each hour, she chooses some pile of bananas and eats k bananas from that pile. If the pile has less than k bananas, she eats all of them instead and will not eat any more bananas during this hour.
+
+Koko likes to eat slowly but still wants to finish eating all the bananas before the guards return.
+
+Return the minimum integer k such that she can eat all the bananas within h hours.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: piles = [3,6,7,11], h = 8
+Output: 4
+
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: piles = [30,11,23,4,20], h = 5
+Output: 30
+
+Example 3
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: piles = [30,11,23,4,20], h = 6
+Output: 23
+
+
+JASON'S ANALYSIS
+
+ALGORITHM
+
+*We are trying to find k-value, which is the minimum speed of given banana in given hour [h].
+
+1. K-range will be from least number of element to most number of element (ie. If given array elements are [3, 6, 7, 11], then k will iterate through [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+2. Conduct binary search on the k-range
+3. Find the lowest possible hour that koko can eat banana 
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+class Solution {
+
+    public int minEatingSpeed(int[] piles, int h) {
+        // Initalize the left and right boundaries
+        int left = 1, right = 1;
+        for (int pile : piles) {
+            right = Math.max(right, pile);
+        }
+
+        while (left < right) {
+            // Get the middle index between left and right boundary indexes.
+            // hourSpent stands for the total hour Koko spends.
+            int middle = (left + right) / 2;
+            int hourSpent = 0;
+
+            // Iterate over the piles and calculate hourSpent.
+            // We increase the hourSpent by ceil(pile / middle)
+            for (int pile : piles) {
+                hourSpent += Math.ceil((double) pile / middle);
+            }
+
+            // Check if middle is a workable speed, and cut the search space by half.
+            if (hourSpent <= h) {
+                right = middle;
+            } else {
+                left = middle + 1;
+            }
+        }
+
+        // Once the left and right boundaries coincide, we find the target value,
+        // that is, the minimum workable eating speed.
+        return right;
+    }
+}
+
+PYTHON
+
+class Solution:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        l, r = 1, max(piles)
+        res = r
+
+        while l <= r:
+            k = (l + r) // 2
+            hours = 0
+            for p in piles:
+                hours += math.ceil(p / k)
+
+            if hours <= h:
+                res = min(res, k)
+                r = k - 1
+            else:
+                l = k + 1
+        return res
