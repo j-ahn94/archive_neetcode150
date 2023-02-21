@@ -1,0 +1,80 @@
+# 33. / SEARCH IN ROTATED SORTED ARRAY
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+There is an integer array nums sorted in ascending order (with distinct values).
+
+Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+
+Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Copy & Paste
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Copy & Paste
+
+
+JASON'S ANALYSIS
+
+Three cases:
+1) Elements sorted from least-to-most (linear). Therefore, return the element in the most left
+2) Elements sorted where number increases, then drops to the lowest number and increases again
+3) Elements sorted where number decreases and increases again
+
+*The target value needs to fit into either of the three cases. The first case is simple, so we will ignore that.
+
+To analyze whether target value is inside the case (2), then we need to create two for-loops to validate that the element is indeed inside the first increasing loop.
+If not, then the target value is inside the second increasing loop
+
+Same thing for the (3) case, where two for-loops must be created.
+
+
+ALGORITHM
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+class Solution {
+    public int search(int[] nums, int target) {
+        if(nums.length == 0 || nums == null) {
+            return -1;
+        }
+        
+        int beginning = 0;
+        int end = nums.length - 1;
+        
+        
+        while(beginning <= end) {
+            int mid = beginning + (end - beginning) / 2;
+            
+            if(nums[mid] == target) {
+                return mid;
+            }
+            
+            if(nums[beginning] <= nums[mid]) {
+                if(target >= nums[beginning] && target < nums[mid]) {
+                    end = mid - 1;
+                } else {
+                    beginning = mid + 1;
+                }
+            } else {
+                if(target > nums[mid] && target <= nums[end]) {
+                    beginning = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+}
+
+PYTHON
