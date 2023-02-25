@@ -21,20 +21,99 @@ Your code will only be given the head of the original linked list.
 
 Example 1
 ------------------------------------------------------------------------------------------------------------------------------------------
-Copy & Paste
+Input: head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+Output: [[7,null],[13,0],[11,4],[10,2],[1,0]]
+
 
 Example 2
 ------------------------------------------------------------------------------------------------------------------------------------------
-Copy & Paste
+Input: head = [[1,1],[2,1]]
+Output: [[1,1],[2,1]]
+
+Example 3
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: head = [[3,null],[3,0],[3,null]]
+Output: [[3,null],[3,0],[3,null]]
+
 
 
 JASON'S ANALYSIS
 
+?
+
 ALGORITHM
 
+1. Use Hash Table to clone the version of the linked lists (in other words, to keep track of new node that we create)
+2. Key will store 'old node' and value will store 'cloned version of node (new node)'
+3. Iterate through the list. If the node does not exist, then add it to the Hash Table
+4. 
 CODE
 ------------------------------------------------------------------------------------------------------------------------------------------
 
 JAVA
 
+class Solution {
+    public Node copyRandomList(Node head) {
+        // base case
+        if(head == null) {
+            return null;
+        }
+
+        // define table
+        HashMap<Node, Node> hm = new HashMap<>();
+
+        // define cur pointer = head
+        Node cur = head;
+        hm.put(cur, new Node(cur.val));
+
+        // while cur pointer != null
+        while(cur != null) {
+            // 1. get the new node of the current pointer
+            Node curClone = hm.get(cur);
+
+            // 2. build the random pointer if it doesn't exist in the table
+            if(cur.random != null && !hm.containsKey(cur.random)) {
+                hm.put(cur.random, new Node(cur.random.val));
+            }
+
+            Node randomClone = hm.get(cur.random);
+
+            // 3. get new current node point to new random node
+            curClone.random = randomClone;
+
+            // 4. build the next node if it doesn't exist in the table
+            if(cur.next != null && !hm.containsKey(cur.next)) {
+                hm.put(cur.next, new Node(cur.next.val));
+            }
+
+            Node nextClone = hm.get(cur.next);
+
+            // 5. get the new curNode point to the next new node
+            curClone.next = nexClone;
+
+            // 6. cur pointer move the next node
+            cur = cur.next;
+        }
+    }
+}
+
 PYTHON
+
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        oldToCopy = { None: None }
+
+        cur = head
+        while cur:
+            copy = Node(cur.val)
+            oldToCopy[cur] = copy
+            cur = cur.next
+        
+        cur = head
+        while cur:
+            copy = oldToCopy[cur]
+            copy.next = oldToCopy[cur.next]
+            copy.random = oldToCopy[cur.random]
+            cur = cur.next
+
+        return oldToCopy[head]
