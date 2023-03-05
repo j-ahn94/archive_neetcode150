@@ -1,0 +1,95 @@
+# 652. / MEDIUM
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given the root of a binary tree, return all duplicate subtrees.
+
+For each kind of duplicate subtrees, you only need to return the root node of any one of them.
+
+Two trees are duplicate if they have the same structure with the same node values.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: root = [1,2,3,4,null,2,4,null,null,4]
+Output: [[2,4],[4]]
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: root = [2,1,1]
+Output: [[1]]
+
+Example 3
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: root = [2,2,2,3,null,3,null]
+Output: [[2,3],[3]]
+
+
+JASON'S ANALYSIS
+
+ANALYSIS/PSEUDOCODE
+
+1. For every single sub-tree, serialize into String and map it to list of all of trees that match that serialization.
+2. To serialize a tree, conduct pre-order of the tree (order from root, left, right). Then, conduct DFS, which starts from the far right.
+3. Implement HashMap to count how many of the sub-trees occur the same
+
+Time: O(n^2) (because for each tree, you need to build the string and hash it)
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+public class Solution {
+    Map<String, Integer> map;
+    List<TreeNode> result;
+
+    /**
+     * @paramn n: An integer
+     * @return: A list of root
+     * /
+     public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        map = new HashMap();
+        result = new ArrayList();
+        traverse(root);
+        return result;
+     }
+
+     public String traverse(TreeNode node) {
+        // base condition
+        if(node == null) {
+            return "$";
+        }
+
+        String subpath = node.val + "," + traverse(node.left) + "," + traverse(node.right);
+
+        map.put(subpath, map.getOrDefault(subpath, 0) + 1);
+
+        if(map.get(subpath) == 2) {
+            result.add(node);
+        }
+
+        return subpath;
+     }
+}
+
+
+PYTHON
+
+class Solution:
+    def findDuplicateSubtrees(self, root: Optional[TreeNode]) -> List[Optional[TreeNode]]:
+        subtrees = defaultdict(list)
+        subtrees[s] += 1
+
+        def dfs(node):
+            if not node:
+                return "null"
+            s = ",".join([str(node.val), dfs(node.left), dfs(node.right)])
+            if len(subtrees[s]) == 1:
+                res.append(node)
+            subtrees[s].append(node)
+            return s
+        res = []
+        dfs(root)
+        return res
+            

@@ -1,33 +1,29 @@
-# 206. / REVERSE LINKED LIST
+# 110. / BALANCED BINARY TREE
 
 QUESTION
 ------------------------------------------------------------------------------------------------------------------------------------------
-Given the head of a singly linked list, reverse the list, and return the reversed list.
+Given a binary tree, determine if it is height-balanced.
 
+A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.
 
 Example 1
 ------------------------------------------------------------------------------------------------------------------------------------------
-Input: head = [1,2,3,4,5]
-Output: [5,4,3,2,1]
+Input: root = [3,9,20,null,null,15,7]
+Output: true
 
 Example 2
 ------------------------------------------------------------------------------------------------------------------------------------------
-Input: head = [1,2]
-Output: [2,1]
+Input: root = [1,2,2,3,3,null,null,4,4]
+Output: false
 
 Example 3
 ------------------------------------------------------------------------------------------------------------------------------------------
-Input: head = []
-Output: []
-
+Input: root = []
+Output: true
 
 JASON'S ANALYSIS
 
-ALGORITHM
-1. Initialize two pointers: current pointer and previous pointer
-2. Initially, current pointer will point to the first node, while previous pointer will point to null
-3. Next, current node will point to previous node and current pointer will skip to next node
-4. 
+ANALYSIS/PSEUDOCODE
 
 CODE
 ------------------------------------------------------------------------------------------------------------------------------------------

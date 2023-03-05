@@ -1,0 +1,40 @@
+# 25. / REVERSE NODES IN K-GROUP
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.
+
+k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.
+
+You may not alter the values in the list's nodes, only nodes themselves may be changed.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: head = [1,2,3,4,5], k = 2
+Output: [2,1,4,3,5]
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: head = [1,2,3,4,5], k = 3
+Output: [3,2,1,4,5]
+
+
+JASON'S ANALYSIS
+
+If 'k' is 0 or 1, then simply return the reverseGroup listnode as it is.
+If 'k' is greater than 1, then increase the pointer up to the k-th value and reverse it while adding it to the new listnode.
+Repeat until k < reverseKGroup remaining values
+
+Time - O(n)
+Space - O(1)
+
+
+ANALYSIS/PSEUDOCODE
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+PYTHON
