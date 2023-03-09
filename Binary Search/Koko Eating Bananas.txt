@@ -32,11 +32,24 @@ JASON'S ANALYSIS
 
 ALGORITHM
 
-*We are trying to find k-value, which is the minimum speed of given banana in given hour [h].
+*We are trying to find k-value, which is the minimum "speed" of given banana in given hour [h].
 
 1. K-range will be from least number of element to most number of element (ie. If given array elements are [3, 6, 7, 11], then k will iterate through [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
 2. Conduct binary search on the k-range
 3. Find the lowest possible hour that koko can eat banana 
+4. For instance, if the given array is [3, 6, 7, 11] and H = 8, we are going to expand the array into [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].
+   Since we are doing binary search, we need to look at 6. Here, 6 is the speed Koko can eat in a given hour.
+   And as we are looking for eating speed in a given hour, we divide each of the bananas with the array integer.
+   Therefore, we conduct division of 3 (banana) / 6 (speed in hour) = 1
+                                     6 / 6 = 1
+                                     7 / 6 = 1
+                                     11 / 6 = 2
+   Add everything up and we have 5
+5. We store the value into a variable. BUT wait, we are trying to find the 'minimum' hour Koko can eat everything within the given hour.
+6. Therefore, we move the right pointer to (middle - 1) and conduct another binary search.
+7. If the value is less than what we had earlier (which is 5), then remove 5 and replace it with a number that is less than 5.
+8. If the left and right pointer meet at the same interval, then we finished the binary search and return the number.
+
 
 CODE
 ------------------------------------------------------------------------------------------------------------------------------------------

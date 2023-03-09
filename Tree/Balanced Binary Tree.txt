@@ -1,10 +1,9 @@
-# 110. / BALANCED BINARY TREE
+# 110. / EASY
 
 QUESTION
 ------------------------------------------------------------------------------------------------------------------------------------------
 Given a binary tree, determine if it is height-balanced.
 
-A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.
 
 Example 1
 ------------------------------------------------------------------------------------------------------------------------------------------
@@ -23,13 +22,18 @@ Output: true
 
 JASON'S ANALYSIS
 
+1. We first need to understand how left and right node of each tree need to be less than or equal to 1 (the difference).
+2. N/A
+
 ANALYSIS/PSEUDOCODE
-1. Recursively look at the tree from 'bottom-up' approach.
-2. Start from the root node of the tree, but go to the very bottom of the tree, which is the base case.
-3. 
-
 Time - O(n)
+Space - O(n)
 
+1. Keep traversing to the bottom of the sub-tree until the most bottom and check whether both left and right of the subtree is balanced.
+2. To check whether the binary tree is balanced, we need to conduct mathematical calculation to determine whether left and right subtrees of every node differ in height by more than 1.
+3. We start from left sub-tree. Go to the very bottom of the tree node. If the tree node does not have left or/and right subtree, then it's considered as -1.
+4. When we go up one tree (parent tree), we calculate by max(L, R) + 1 >= 1 (we include 1 to add the parent node itself)
+5. We will be returning two values: [T/F, h (height of each subtree)]
 
 CODE
 ------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,13 +44,12 @@ PYTHON
 
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-
         def dfs(root):
             if not root: return [True, 0]
 
             left, right = dfs(root.left), dfs(root.right)
-            balanced = (left[0] and right[0] and abs(left[1] - right[1]) <= 1)
-
+            balanced = (left[0] and right[0] and 
+                    abs(left[1] - right[1]) <= 1) // if it's less than 1, then we can assume that the Tree is balanced
             return [balanced, 1 + max(left[1], right[1])]
         
-        return dfs(root)
+        return dfs(root)[0]

@@ -1,0 +1,76 @@
+# 142. / MEDIUM
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to (0-indexed). It is -1 if there is no cycle. Note that pos is not passed as a parameter.
+
+Do not modify the linked list.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: head = [3,2,0,-4], pos = 1
+Output: tail connects to node index 1
+Explanation: There is a cycle in the linked list, where tail connects to the second node.
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: head = [1,2], pos = 0
+Output: tail connects to node index 0
+Explanation: There is a cycle in the linked list, where tail connects to the first node.
+
+Example 3
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: head = [1], pos = -1
+Output: no cycle
+Explanation: There is no cycle in the linked list.
+
+
+JASON'S ANALYSIS
+Hare and tortoise algorithm
+-slow pointer
+-fast pointer
+
+If two pointers meet with each other, then there is a list cycle.
+
+
+ANALYSIS/PSEUDOCODE
+1. Conduct hare and tortoise algorithm, where we initialize slow pointer and fast pointer
+2. When both fast and slow pointer meet with each other, we need to move fast pointer back to the head node
+3. The key here is that we move the slow and fast pointer at the same speed
+4. Eventually, they will meet again at the starting point of the loop
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Time - O(n)
+Space - O(1)
+
+
+JAVA
+public ListNode detectCycle(ListNode head) {
+    // Start both from head
+    ListNode slow = head, fast = head;
+
+    // Advance both at different speeds
+    // until they meet once
+    while(fast != null && fast.next != null) {
+        fast = fast.next.next;
+        slow = slow.next;
+
+        // As soon as they meet, start from the
+        // head again and move at the same speed
+        if(slow == fast) {
+            while(head != slow) {
+                head = head.next;
+                slow = slow.next;
+            }
+            return slow;
+        }
+    }
+    return null;
+}
+
+PYTHON
