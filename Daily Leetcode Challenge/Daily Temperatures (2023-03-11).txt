@@ -1,0 +1,55 @@
+# 739. / MEDIUM
+
+QUESTION
+------------------------------------------------------------------------------------------------------------------------------------------
+Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is 
+the number of days you have to wait after the ith day to get a warmer temperature. 
+If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+
+Example 1
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: temperatures = [73,74,75,71,69,72,76,73]
+Output: [1,1,4,2,1,1,0,0]
+
+Example 2
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: temperatures = [30,40,50,60]
+Output: [1,1,1,0]
+
+Example 3
+------------------------------------------------------------------------------------------------------------------------------------------
+Input: temperatures = [30,60,90]
+Output: [1,1,0]
+
+
+JASON'S ANALYSIS
+
+ANALYSIS/PSEUDOCODE
+
+Time - O(n)
+Space - O(n)
+
+Monotonic Decreasing Stack Algorithm
+-implement stack with the elements in decreasing order
+ if the element 'next' to it is increasing (ie. 47, 49...), then we pop out 47 since 47->49 is increasing
+ if the element 'next' to it is non-increasing (ie. 75, 71...), then we maintain having [75, 71...] in the stack
+     if the element greater than 76 comes out (ie. 75, 71, 76), then we pop out 75
+
+CODE
+------------------------------------------------------------------------------------------------------------------------------------------
+
+JAVA
+
+PYTHON
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        res = [0] * len(temperatures)
+        stack = [] # pair: [temp, index]
+
+        for i, t in enumerate(temperatures):
+            while stack and t > stack[-1][0]:
+                stackT, stackInd = stack.pop()
+                res[stackInd] = (i - stackInd)
+            stack.append([t, i])
+        return res

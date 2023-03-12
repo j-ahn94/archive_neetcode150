@@ -26,8 +26,8 @@ JASON'S ANALYSIS
 2. N/A
 
 ANALYSIS/PSEUDOCODE
-Time - O(n)
-Space - O(n)
+Time - O(n) # number of nodes in tree
+Space - O(h)
 
 1. Keep traversing to the bottom of the sub-tree until the most bottom and check whether both left and right of the subtree is balanced.
 2. To check whether the binary tree is balanced, we need to conduct mathematical calculation to determine whether left and right subtrees of every node differ in height by more than 1.
@@ -39,6 +39,32 @@ CODE
 ------------------------------------------------------------------------------------------------------------------------------------------
 
 JAVA
+
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        // If the tree is empty, we can say it’s balanced...
+        if (root == null)  return true;
+        // Height Function will return -1, when it’s an unbalanced tree...
+		if (Height(root) == -1)  return false;
+		return true;
+	}
+    // Create a function to return the “height” of a current subtree using recursion...
+	public int Height(TreeNode root) {
+        // Base case...
+		if (root == null)  return 0;
+        // Height of left subtree...
+		int leftHeight = Height(root.left);
+        // Height of height subtree...
+		int rightHight = Height(root.right);
+        // In case of left subtree or right subtree unbalanced, return -1...
+		if (leftHeight == -1 || rightHight == -1)  return -1;
+        // If their heights differ by more than ‘1’, return -1...
+        if (Math.abs(leftHeight - rightHight) > 1)  return -1;
+        // Otherwise, return the height of this subtree as max(leftHeight, rightHight) + 1...
+		return Math.max(leftHeight, rightHight) + 1;
+    }
+}
+
 
 PYTHON
 
